@@ -26,7 +26,7 @@ function DateCounter() {
 
 
     const date = new Date();
-    date.setDate(date.getDate() + counter);
+    date.setDate(date.getDate() + step);
     return (
         <div>
             <div>
