@@ -1,62 +1,70 @@
 import { useState } from "react";
 
-
 export default function App() {
-    return <div>
-        <DateCounter />
-
+  return (
+    <div>
+      <DateCounter />
     </div>
+  );
 }
-
 
 function DateCounter() {
+  const [counter, setCounter] = useState(1);
+  const [step, setStep] = useState(0);
 
+  const date = new Date();
+  date.setDate(date.getDate() + step);
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div>
+        <input
+          type="range"
+          value={counter}
+          onChange={(e) => setCounter(Number(e.target.value))}
+        />
 
-    const [counter, setCounter] = useState(1);
-    const [step, setStep] = useState(0);
+        <span>Step:{counter}</span>
+      </div>
 
-    function handleConterIncreament() {
-        setCounter((count) => count + 1)
+      <div>
+        <button
+          onClick={() => {
+            setStep((stepCount) => stepCount - counter);
+          }}
+        >
+          -
+        </button>
+        <input
+          type="text"
+          value={step}
+          onChange={(e) => setStep(Number(e.target.value))}
+        />
+        <button onClick={() => setStep((stepCount) => stepCount + counter)}>
+          +
+        </button>
+      </div>
 
-    }
-    function handleConterDecreament() {
-        setCounter((count) => count - 1)
-
-    }
-
-
-    const date = new Date();
-    date.setDate(date.getDate() + step);
-    return (
-        <div>
-            <div>
-                <button onClick={handleConterDecreament}>-</button>
-                <span>Step:{counter}</span>
-                <button onClick={handleConterIncreament}>+</button>
-            </div>
-
-            <div>
-                <button onClick={() => {
-                    setStep((stepCount) => stepCount - counter)
-                }}>-</button>
-                <span>Count: {step}</span>
-                <button onClick={() => setStep((stepCount) => stepCount + counter)}>+</button>
-            </div>
-
-            <p>
-                <span>
-                    {step === 0
-                        ? "Today is "
-                        : step > 0
-                            ? `${step} days from today is `
-                            : `${Math.abs(step)} days ago was `}
-                </span>
-                <span>{date.toDateString()}</span>
-            </p>
-        </div>
-    );
+      {counter > 1 || step > 0 ? (
+        <button
+          style={{ marginTop: "5px" }}
+          onClick={() => {
+            setCounter(1);
+            setStep(0);
+          }}
+        >
+          Reset
+        </button>
+      ) : null}
+      <p>
+        <span>
+          {step === 0
+            ? "Today is "
+            : step > 0
+            ? `${step} days from today is `
+            : `${Math.abs(step)} days ago was `}
+        </span>
+        <span>{date.toDateString()}</span>
+      </p>
+    </div>
+  );
 }
-
-
-
-
